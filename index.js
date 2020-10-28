@@ -4,8 +4,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
+
 const historyFallback = require("connect-history-api-fallback");
 
+const robot = require("./routes/api/robot")
 
 // Middleware
 app.use(bodyParser.json());
@@ -26,6 +28,8 @@ mongoose.connect(dbUrl, {
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
+
+app.use("/api/robot", robot)
 
 app.listen(port, () =>
   console.log("-------------------------------------\nStarted on port: " + port)
