@@ -1,0 +1,18 @@
+{
+  "name": "cigbots",
+  "version": "1.0.0",
+  "description": "Cigbots",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --inspect index.js"
+  },
+  "author": "Roman Bucher",
+  "license": "ISC",
+  "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.11"
+  }
+}
