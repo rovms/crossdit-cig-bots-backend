@@ -4,10 +4,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-
 const historyFallback = require("connect-history-api-fallback");
 
-const robot = require("./routes/api/robot")
+const robot = require("./routes/api/robot");
 
 // Middleware
 app.use(bodyParser.json());
@@ -15,7 +14,7 @@ app.use(cors());
 
 app.use(historyFallback());
 
-const dbUrl = "mongodb+srv://admin:1rhrTmIHnwhhAnfd@cluster0.jd6dh.mongodb.net/<dbname>?retryWrites=true&w=majority"
+const dbUrl = "mongodb+srv://admin:1rhrTmIHnwhhAnfd@cluster0.jd6dh.mongodb.net/main?retryWrites=true&w=majority";
 
 if (!dbUrl) {
   console.log("DB not configured correctly: ");
@@ -29,8 +28,6 @@ mongoose.connect(dbUrl, {
   useCreateIndex: true,
 });
 
-app.use("/api/robot", robot)
+app.use("/api/robot", robot);
 
-app.listen(port, () =>
-  console.log("-------------------------------------\nStarted on port: " + port)
-);
+app.listen(port, () => console.log("-------------------------------------\nStarted on port: " + port));
