@@ -8,16 +8,26 @@ const opts = {
   timestamps: true,
 };
 
-const location = {
-    latitude: {
-        type: Number,
-        required: true
-    },
-    longitude: {
-        type: Number,
-        required: true
-    },
-}
+const position = {
+  lat: {
+    type: Number,
+    required: true,
+  },
+  lng: {
+    type: Number,
+    required: true,
+  },
+};
+
+const cigCollected = {
+  date: {
+    type: Date,
+    required: true,
+  },
+  position: {
+    type: position,
+  },
+};
 
 const RobotSchema = new Schema(
   {
@@ -25,11 +35,22 @@ const RobotSchema = new Schema(
       type: String,
       required: true,
     },
-    currentLocation: {type: location},
-    targetLocation: {type: location},
+    position: { type: position },
+    targetLocation: { type: position },
     energyUsed: {
-        type: Number,   
-    }
+      type: Number,
+      default: 0,
+    },
+    cigsCollected: {
+      type: [cigCollected],
+      default: [],
+    },
+    batteryLevel: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: 5,
+    },
   },
   opts
 );
