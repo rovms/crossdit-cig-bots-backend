@@ -35,6 +35,10 @@ const RobotSchema = new Schema(
       type: String,
       required: true,
     },
+    installationAt: {
+      type: Date,
+      default: new Date(),
+    },
     position: { type: position },
     targetLocation: { type: position },
     energyUsed: {
@@ -48,8 +52,19 @@ const RobotSchema = new Schema(
     batteryLevel: {
       type: Number,
       min: 0,
-      max: 5,
-      default: 5,
+      max: 100,
+      default: 100,
+    },
+    trashLevel: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Pick up", "Error"],
+      default: "Active",
     },
   },
   opts
