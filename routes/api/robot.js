@@ -10,18 +10,12 @@ router.post("/", async (req, res) => {
     let i;
     for (i = 1; i < 6; i++) {
       cigs.push({
-        position: {
-          lat: body.position.lat + 0.001 * i,
-          lng: body.position.lng - 0.0005 * i,
-        },
+        position: [body.position.lat * 0.001 * i, body.position.lng - 0.0005 * i],
         date: new Date(),
       });
     }
     const robot = new Robot({
-      position: {
-        lat: body.position.lat,
-        lng: body.position.lng,
-      },
+      position: [body.position.lat, body.position.lng],
       name: body.name,
       energyUsed: body.energyUsed,
       cigsCollected: cigs,
@@ -38,6 +32,20 @@ router.get("/", async (req, res) => {
   try {
     const robots = await Robot.find();
     return res.status(200).json(robots);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
+router.post("/pickup", async (req, res) => {
+  try {
+    const robot = await Robot.findById(req.body.robotId);
+    if (!robot) return res.status(400).json("Not found.");
+    robot.status = "Pick up";
+    robot.engineer = req.body.engineerId;
+    const saveResult = await robot.save();
+    return res.status(200).statusjson(saveResult);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

@@ -8,24 +8,14 @@ const opts = {
   timestamps: true,
 };
 
-const position = {
-  lat: {
-    type: Number,
-    required: true,
-  },
-  lng: {
-    type: Number,
-    required: true,
-  },
-};
-
 const cigCollected = {
   date: {
     type: Date,
     required: true,
   },
   position: {
-    type: position,
+    type: [Number],
+    default: [55.66071, 12.6024],
   },
 };
 
@@ -39,8 +29,8 @@ const RobotSchema = new Schema(
       type: Date,
       default: new Date(),
     },
-    position: { type: position },
-    targetLocation: { type: position },
+    position: { type: [Number], default: [55.66071, 12.6024] },
+    targetLocation: { type: [Number], default: [] },
     energyUsed: {
       type: Number,
       default: 0,
@@ -65,6 +55,10 @@ const RobotSchema = new Schema(
       type: String,
       enum: ["Active", "Pick up", "Error"],
       default: "Active",
+    },
+    engineer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Engineer",
     },
   },
   opts

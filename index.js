@@ -7,6 +7,7 @@ const cors = require("cors");
 const historyFallback = require("connect-history-api-fallback");
 
 const robot = require("./routes/api/robot");
+const engineer = require("./routes/api/engineer");
 
 // Middleware
 app.use(bodyParser.json());
@@ -29,5 +30,36 @@ mongoose.connect(dbUrl, {
 });
 
 app.use("/api/robot", robot);
+app.use("/api/engineer", engineer);
+
+// function moveRobots() {
+//   Robot.find().then((robots) => {
+//     robots.forEach((robot) => {
+//       console.log(robot.id);
+//       console.log("old:" + robot.position[0] + " / " + robot.position[1]);
+
+//       robot.position[0] = rand(robot.position[0]);
+//       robot.position[1] = rand(robot.position[1]);
+
+//       console.log("new:" + robot.position[0] + " / " + robot.position[1]);
+//       console.log("----------");
+//       robot.save();
+//     });
+//   });
+// }
+
+// function rand(n) {
+//   const max = n + 0.01;
+//   const min = n - 0.01;
+//   return Math.random() * (max - min) + min;
+// }
+
+// setInterval(() => moveRobots(), 5000);
+
+// setInterval(() => {
+//   moveRobots;
+// }, 5000);
+
+// moveRobots();
 
 app.listen(port, () => console.log("-------------------------------------\nStarted on port: " + port));
