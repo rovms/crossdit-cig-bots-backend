@@ -3,11 +3,13 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const historyFallback = require("connect-history-api-fallback");
 
 const robot = require("./routes/api/robot");
 const engineer = require("./routes/api/engineer");
+const auth = require("./routes/api/auth");
 
 // Middleware
 app.use(bodyParser.json());
@@ -31,6 +33,7 @@ mongoose.connect(dbUrl, {
 
 app.use("/api/robot", robot);
 app.use("/api/engineer", engineer);
+app.use("/api/auth", auth);
 
 // function moveRobots() {
 //   Robot.find().then((robots) => {

@@ -7,11 +7,12 @@ router.post("/", async (req, res) => {
   try {
     const newEngineer = new Engineer({
       name: req.body.name,
+      password: req.body.password,
     });
 
     await newEngineer.save();
 
-    return res.status(201).json(newEngineer);
+    return res.status(201).json("Ok.");
   } catch (error) {
     console.log(error);
     return res.status(500);

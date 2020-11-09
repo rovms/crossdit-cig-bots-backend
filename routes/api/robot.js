@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../../middleware/check-auth");
 
 const Robot = require("../../model/robot");
 
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   try {
     const body = req.body;
     const cigs = [];
@@ -28,7 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
     const robots = await Robot.find();
     return res.status(200).json(robots);
@@ -38,7 +39,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/pickup", async (req, res) => {
+router.post("/pickup", verifyToken, async (req, res) => {
   try {
     const robot = await Robot.findById(req.body.robotId);
     if (!robot) return res.status(400).json("Not found.");
@@ -52,7 +53,7 @@ router.post("/pickup", async (req, res) => {
   }
 });
 
-router.get("/:robotId", async (req, res) => {
+router.get("/:robotId", verifyToken, async (req, res) => {
   try {
     const robot = await Robot.findById(req.params.robotId);
     if (!robot) return res.status(400).json("Not found.");
