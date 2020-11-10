@@ -24,6 +24,7 @@ const RobotSchema = new Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     installationAt: {
       type: Date,

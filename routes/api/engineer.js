@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     return res.status(201).json("Ok.");
   } catch (error) {
     console.log(error);
-    return res.status(500);
+    return res.status(500).json(error);
   }
 });
 
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
     return res.status(200).json(engineers);
   } catch (error) {
     console.log(error);
-    return res.status(500);
+    return res.status(500).json(error);
   }
 });
 

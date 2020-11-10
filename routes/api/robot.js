@@ -4,7 +4,7 @@ const verifyToken = require("../../middleware/check-auth");
 
 const Robot = require("../../model/robot");
 
-router.post("/", verifyToken, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const body = req.body;
     const cigs = [];
@@ -40,13 +40,14 @@ router.get("/", verifyToken, async (req, res) => {
 });
 
 router.post("/pickup", verifyToken, async (req, res) => {
+  console.log("picking up");
   try {
     const robot = await Robot.findById(req.body.robotId);
     if (!robot) return res.status(400).json("Not found.");
     robot.status = "Pick up";
-    robot.engineer = req.body.engineerId;
-    const saveResult = await robot.save();
-    return res.status(200).statusjson(saveResult);
+    robot.engineer = req.userData.id;
+    await robot.save();
+    return res.status(200).json("Ok");
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
