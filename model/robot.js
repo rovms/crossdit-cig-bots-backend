@@ -19,9 +19,28 @@ const cigCollected = {
   },
 };
 
+// const part = {
+//   part: {
+//     type: String,
+//   },
+//   status: {
+//     type: String,
+//   },
+// };
+
+const part = {
+  type: String,
+  default: "Ok",
+};
+
 const RobotSchema = new Schema(
   {
     name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    id: {
       type: String,
       required: true,
       unique: true,
@@ -31,7 +50,6 @@ const RobotSchema = new Schema(
       default: new Date(),
     },
     position: { type: [Number], default: [55.66071, 12.6024] },
-    targetLocation: { type: [Number], default: [] },
     energyUsed: {
       type: Number,
       default: 0,
@@ -61,8 +79,18 @@ const RobotSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Engineer",
     },
+    oil: part,
+    wheels: part,
+    camera: part,
   },
   opts
 );
+
+RobotSchema.virtual("events", {
+  ref: "Event",
+  localField: "_id",
+  foreignField: "robot",
+  justOne: false,
+});
 
 module.exports = mongoose.model("Robot", RobotSchema);

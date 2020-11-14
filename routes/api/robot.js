@@ -19,7 +19,13 @@ router.post("/", async (req, res) => {
       position: [body.position.lat, body.position.lng],
       name: body.name,
       energyUsed: body.energyUsed,
-      cigsCollected: cigs,
+      cigsCollected: [],
+      id: body.id,
+      batteryLevel: Math.round(Math.random() * 100),
+      trashLevel: Math.round(Math.random() * 100),
+      oil: body.oil,
+      wheels: body.wheels,
+      camera: body.camera,
     });
     await robot.save();
     return res.status(201).send("Created.");
@@ -29,9 +35,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const robots = await Robot.find();
+    const robots = await Robot.find().populate("engineer").populate("events");
     return res.status(200).json(robots);
   } catch (error) {
     console.log(error);
@@ -39,14 +45,15 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/pickup", verifyToken, async (req, res) => {
-  console.log("picking up");
+router.post("/pickup", async (req, res) => {
+  console.log(req.body);
   try {
     const robot = await Robot.findById(req.body.robotId);
     if (!robot) return res.status(400).json("Not found.");
     robot.status = "Pick up";
-    robot.engineer = req.userData.id;
-    await robot.save();
+    robot.engineer = req.body.engineerId;
+    const saved = await robot.save();
+    console.log(saved);
     return res.status(200).json("Ok");
   } catch (error) {
     console.log(error);
@@ -54,7 +61,7 @@ router.post("/pickup", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/:robotId", verifyToken, async (req, res) => {
+router.get("/:robotId", async (req, res) => {
   try {
     const robot = await Robot.findById(req.params.robotId);
     if (!robot) return res.status(400).json("Not found.");

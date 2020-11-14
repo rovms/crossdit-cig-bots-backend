@@ -10,6 +10,7 @@ const historyFallback = require("connect-history-api-fallback");
 const robot = require("./routes/api/robot");
 const engineer = require("./routes/api/engineer");
 const auth = require("./routes/api/auth");
+const event = require("./routes/api/event");
 
 // Middleware
 app.use(bodyParser.json());
@@ -34,6 +35,7 @@ mongoose.connect(dbUrl, {
 app.use("/api/robot", robot);
 app.use("/api/engineer", engineer);
 app.use("/api/auth", auth);
+app.use("/api/event", event);
 
 // function moveRobots() {
 //   Robot.find().then((robots) => {
