@@ -32,6 +32,20 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/changeDate/:eventId", async (req, res) => {
+  console.log("eventId :>> ", req.params.eventId);
+  try {
+    const event = await Event.findById(req.params.eventId);
+    if (!event) return res.status(400).json("Not found.");
+    event.date = req.body.date;
+    const saveResult = await event.save();
+    return res.status(200).json(saveResult);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
 router.post("/:eventId", async (req, res) => {
   try {
     let event = await Event.findById(req.params.eventId);

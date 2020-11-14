@@ -63,7 +63,7 @@ router.post("/pickup", async (req, res) => {
 
 router.get("/:robotId", async (req, res) => {
   try {
-    const robot = await Robot.findById(req.params.robotId);
+    const robot = await Robot.findById(req.params.robotId).populate("engineer");
     if (!robot) return res.status(400).json("Not found.");
     return res.status(200).json(robot);
   } catch (error) {
